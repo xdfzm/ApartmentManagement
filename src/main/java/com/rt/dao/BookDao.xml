@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--约束文件 要出出现的标签符合mybatis要求-->
+<!--namespace 要写dao接口的路径-->
+<mapper namespace="com.rt.dao.BookDao">
+    <sql id="Base_Column_List">
+        isbn,book_name as bookName,author,type,price,publisher,publish_year as publishYear,total_number as totalNumber,lent_number as lentNumber
+    </sql>
+
+
+    <select id="selectAllBook" resultType="com.rt.pojo.Book">
+        select <include refid="Base_Column_List"></include> from book
+    </select>
+
+
+    <select id="selectByCondition" resultType="com.rt.pojo.Book">
+        select
+        <include refid="Base_Column_List"></include>
+        from book
+        <where>
+            <if test="bookName!=null and bookName!=''">
+                and book_name like '%${bookName}%'
+            </if>
+            <if test="type!=null and type!='-1'">
+                and type =#{type}
+            </if>
+            <if test="author!=null and author!=''">
+                and author like '%${author}%'
+            </if>
+
+        </where>
+    </select>
+
+    <select id="selectByIsbn" resultType="com.rt.pojo.Book">
+        select <include refid="Base_Column_List"></include> from book where isbn = #{isbn}
+    </select>
+
+    <insert id="insert" parameterType="com.rt.pojo.Book">
+        insert into book (isbn,book_name,author,type,price,publisher,publish_year,total_number,lent_number)
+        values (#{isbn},#{bookName},#{author},#{type},#{price},#{publisher},#{publishYear},#{totalNumber},#{lentNumber})
+    </insert>
+
+    <select id="selectLeftNumberByIsbn" resultType="Integer">
+        select total_number-lent_number as left_number from book where isbn = #{isbn}
+    </select>
+
+    <update id="updateLentNumberMinusByIsbn">
+        update book set lent_number = lent_number-1 where isbn = #{isbn} ;
+    </update>
+
+    <update id="updateLentNumberPlusByIsbn">
+        update book set lent_number = lent_number+1 where isbn = #{isbn} ;
+    </update>
+
+    <delete id="deleteByIsbn">
+        delete from book where isbn=#{isbn}
+    </delete>
+</mapper>

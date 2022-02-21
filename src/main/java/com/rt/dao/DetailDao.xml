@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--约束文件 要出出现的标签符合mybatis要求-->
+<!--namespace 要写dao接口的路径-->
+<mapper namespace="com.rt.dao.DetailDao">
+    <insert id="insert" parameterType="com.rt.pojo.Detail">
+        insert into detail (isbn,reader_id,borrow_date,due_date,return_date)
+        values (#{isbn},#{readerId},#{borrowDate},#{dueDate},#{returnDate})
+    </insert>
+
+
+<!--    选出那些还没还的detail也就是returnDate为null-->
+    <select id="selectDetailByReaderIdAndIsbn" resultType="com.rt.pojo.Detail">
+        select id,isbn,reader_id as readerId,borrow_date as borrowDate,due_date as dueDate,return_date as returnDate from detail
+        where return_date is null and reader_id=#{readerId} and isbn=#{isbn};
+    </select>
+
+    <update id="updateReturnDateByReaderIdAndIsbn">
+        update detail set return_date = #{returnDate} where return_date is null and reader_id = #{readerId} and isbn = #{isbn} ;
+    </update>
+
+    <select id="selectDetailByIsbn" resultType="com.rt.pojo.Detail">
+        select id,isbn,reader_id as readerId,borrow_date as borrowDate,due_date as dueDate,return_date as returnDate from detail
+        where return_date is null and isbn=#{isbn};
+    </select>
+</mapper>
