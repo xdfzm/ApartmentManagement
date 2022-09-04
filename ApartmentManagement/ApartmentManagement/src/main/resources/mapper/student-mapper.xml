@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.apartmentmanagement.dao.StudentMapper">
+    <sql id="selectFields">
+        stu_id, dorm_id, stu_name, stu_sex, stu_age, major, faculty, grade, use_number, phone_number
+    </sql>
+
+
+    <select id="selectById" resultType="Student">
+        SELECT <include refid="selectFields"></include>
+        FROM student
+        WHERE stu_id = #{stuId}
+    </select>
+
+<!--    <select id="selectStudent" resultType="Student">-->
+<!--        SELECT <include refid="selectFields"></include>-->
+<!--        FROM student-->
+<!--        WHERE 1 = 1-->
+<!--        <if test="stuId != null and stuId !=''">-->
+<!--            and stu_id=#{stuId}-->
+<!--        </if>-->
+<!--        <if test="dormId !=null and dormId !=''">-->
+<!--            and dorm_id=#{dormId}-->
+<!--        </if>-->
+<!--        <if test="stuName !=null and stuName !=''">-->
+<!--            and stu_name=#{stuName}-->
+<!--        </if>-->
+<!--        <if test="stuSex !=null and stuSex !=''">-->
+<!--            and stu_sex=#{stuSex}-->
+<!--        </if>-->
+<!--        <if test="stuAge !=null and stuAge !=''">-->
+<!--            and stu_age=#{stuAge}-->
+<!--        </if>-->
+<!--        <if test="major!=null and major!=''">-->
+<!--            and major=#{major}-->
+<!--        </if>-->
+<!--        <if test="faculty !=null and faculty !=''">-->
+<!--            and faculty=#{faculty}-->
+<!--        </if>-->
+<!--        <if test="grade !=null and grade !=''">-->
+<!--            and grade=#{grade}-->
+<!--        </if>-->
+<!--    </select>-->
+
+    <select id="selectStudent" resultType="Student">
+        SELECT <include refid="selectFields"></include>
+        FROM student
+        WHERE 1 = 1
+        <if test="stuId != null and stuId !=''">
+            and stu_id=#{stuId}
+        </if>
+        <if test="dormId !=null and dormId !=''">
+            and dorm_id=#{dormId}
+        </if>
+        <if test="stuName !=null and stuName !=''">
+            and stu_name=#{stuName}
+        </if>
+        <if test="stuSex !=null and stuSex !=''">
+            and stu_sex=#{stuSex}
+        </if>
+        <if test="stuAge !=null and stuAge !=''">
+            and stu_age=#{stuAge}
+        </if>
+        <if test="major!=null and major!=''">
+            and major=#{major}
+        </if>
+        <if test="faculty !=null and faculty !=''">
+            and faculty=#{faculty}
+        </if>
+        <if test="grade !=null and grade !=''">
+            and grade=#{grade}
+        </if>
+    </select>
+
+    <select id="selectAllStudents" resultType="Student">
+        SELECT <include refid="selectFields"></include>
+        FROM student
+    </select>
+
+    <insert id="insertStudent" parameterType="Student" keyProperty="stu_id">
+        INSERT INTO student (<include refid="selectFields"></include>)
+        VALUES (#{stuId}, #{dormId}, #{stuName}, #{stuSex}, #{stuAge},
+        #{major}, #{faculty}, #{grade}, #{useNumber}, #{phoneNumber})
+    </insert>
+
+    <delete id="deleteStudent" parameterType="String" >
+        delete from student where stu_id=#{stuId}
+    </delete>
+    <update id="updateStudent" parameterType="Student">
+        update student
+        <set>
+            <if test="stuId != null and stuId !=''">
+                stu_id=#{stuId},
+            </if>
+            <if test="dormId !=null and dormId !=''">
+                dorm_id=#{dormId},
+            </if>
+            <if test="stuName !=null and stuName !=''">
+                stu_name=#{stuName},
+            </if>
+            <if test="stuSex !=null and stuSex !=''">
+                stu_sex=#{stuSex},
+            </if>
+            <if test="stuAge !=null and stuAge !=''">
+                stu_age=#{stuAge},
+            </if>
+            <if test="major!=null and major!=''">
+                major=#{major},
+            </if>
+            <if test="faculty !=null and faculty !=''">
+                faculty=#{faculty},
+            </if>
+            <if test="grade !=null and grade !=''">
+                grade=#{grade},
+            </if>
+            <if test="useNumber !=null ">
+                use_number=#{useNumber},
+            </if>
+            <if test="phoneNumber !=null and phoneNumber !=''">
+                phone_number=#{phoneNumber}
+            </if>
+        </set>
+        where stu_id = #{stuId}
+    </update>
+
+
+<!--    <update id="updateHeader">-->
+<!--        UPDATE user SET header_url = #{headerUrl} WHERE id = #{id}-->
+<!--    </update>-->
+<!--    <update id="updatePassword">-->
+<!--        UPDATE user SET password = #{password} WHERE id = #{id}-->
+<!--    </update>-->
+</mapper>
