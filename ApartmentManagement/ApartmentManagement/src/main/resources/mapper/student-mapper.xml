@@ -55,7 +55,7 @@
             and dorm_id=#{dormId}
         </if>
         <if test="stuName !=null and stuName !=''">
-            and stu_name=#{stuName}
+            and stu_name like "%"#{stuName}"%"
         </if>
         <if test="stuSex !=null and stuSex !=''">
             and stu_sex=#{stuSex}
@@ -64,10 +64,10 @@
             and stu_age=#{stuAge}
         </if>
         <if test="major!=null and major!=''">
-            and major=#{major}
+            and major like "%"#{major}"%"
         </if>
         <if test="faculty !=null and faculty !=''">
-            and faculty=#{faculty}
+            and faculty like "%"#{faculty}"%"
         </if>
         <if test="grade !=null and grade !=''">
             and grade=#{grade}

@@ -1,55 +1,49 @@
 package com.example.apartmentmanagement.controller;
 
-import com.example.apartmentmanagement.entity.Student;
-import com.example.apartmentmanagement.entity.User;
-import com.example.apartmentmanagement.service.UserService;
+import com.example.apartmentmanagement.entity.Live;
+import com.example.apartmentmanagement.service.LiveService;
 import com.example.apartmentmanagement.utils.ResultVo;
-import com.github.pagehelper.PageInfo;
+import com.github.wnameless.json.flattener.JsonFlattener;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/user")
-//@PreAuthorize("hasAuthority('admin')")
-public class UserController {
+@RequestMapping("/live")
+public class LiveController {
+
     @Autowired
-    private Gson gson;
+    private LiveService liveService;
+
     @Autowired
-    private UserService userService;
+    private Gson gson = new Gson();
 
     @GetMapping("/get")
-    public String getUser(int currentPage, int pageSize, User user){
+    public String getStudentBedIdByDorm(String dormId){
+        System.out.println(dormId);
+
+
         ResultVo resultVo = new ResultVo<>();
-        PageInfo<User> users = userService.selectUser(currentPage, pageSize, user);
-        if(users.getSize() != 0){
+        List<Map<String, Object>> studentBedIdInDorm = liveService.getStudentBedIdInDorm(dormId);
+
+        if(studentBedIdInDorm.size() != 0){
             resultVo.setCode(200);
             resultVo.setMsg("查询成功");
-            resultVo.setData(users);
-        }else {
+            resultVo.setData(studentBedIdInDorm);
+        }else{
             resultVo.setCode(500);
             resultVo.setMsg("没有你想要的结果");
         }
         return gson.toJson(resultVo);
     }
 
-    @GetMapping("/getAll")
-    public String getUsers(){
-
-        Map<String, Object> result = new HashMap<>();
-
-        return gson.toJson(result);
-    }
-
     @PostMapping("/add")
-    public String addStudent(@RequestBody User user){
+    public String addLive(@RequestBody Live live){
         ResultVo resultVo = new ResultVo<>();
-        int isInsert = userService.insertUser(user);;
+        int isInsert = liveService.insertLive(live);;
         if(isInsert != 0){
             resultVo.setCode(200);
             resultVo.setMsg("添加成功");
@@ -61,11 +55,9 @@ public class UserController {
     }
 
     @PostMapping("/delete")
-    public String deleteStudent(@RequestBody Long[] userId){
+    public String deleteLive(@RequestBody String[] stuId){
         int isDelete = 0;
-        for (long u : userId) {
-            isDelete = userService.deleteUser(u);
-        }
+        isDelete = liveService.deleteLive(stuId);
 
         ResultVo resultVo = new ResultVo<>();
 
@@ -79,3 +71,4 @@ public class UserController {
         return gson.toJson(resultVo);
     }
 }
+

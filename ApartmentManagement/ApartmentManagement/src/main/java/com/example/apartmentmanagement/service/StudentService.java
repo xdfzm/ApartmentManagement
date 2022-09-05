@@ -69,8 +69,7 @@ public class StudentService {
         Student student1 = studentMapper.selectById(stuId);
         int result = 0;
         if(student1 != null){
-            result = 1;
-            studentMapper.deleteStudent(stuId);
+            result += studentMapper.deleteStudent(stuId);
         }
         return result;
     }

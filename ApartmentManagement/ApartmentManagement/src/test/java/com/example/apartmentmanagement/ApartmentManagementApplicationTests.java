@@ -1,10 +1,13 @@
 package com.example.apartmentmanagement;
 
+import com.example.apartmentmanagement.dao.LiveMapper;
 import com.example.apartmentmanagement.dao.StudentMapper;
 import com.example.apartmentmanagement.dao.SysMapper;
 import com.example.apartmentmanagement.dao.UserMapper;
+import com.example.apartmentmanagement.entity.Live;
 import com.example.apartmentmanagement.entity.Student;
 import com.example.apartmentmanagement.entity.User;
+import com.example.apartmentmanagement.service.LiveService;
 import com.example.apartmentmanagement.service.StudentService;
 import com.example.apartmentmanagement.service.UserService;
 import com.github.pagehelper.PageInfo;
@@ -18,6 +21,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
+import java.util.Map;
 
 @SpringBootTest
 class ApartmentManagementApplicationTests {
@@ -41,6 +45,12 @@ class ApartmentManagementApplicationTests {
 
     @Autowired
     private SysMapper sysMapper;
+
+    @Autowired
+    private LiveService liveService;
+
+    @Autowired
+    private LiveMapper liveMapper;
     @Test
     void contextLoads() {
     }
@@ -81,17 +91,9 @@ class ApartmentManagementApplicationTests {
     @Test
     void testUpdate(){
         Student student = new Student();
-        student.setStuId("220202000222");
-        student.setDormId("121");
-        student.setFaculty("计算机科学与技术");
-        student.setMajor("软件工程");
-        student.setGrade(1);
-//        student.setStuName("kiki");
-        student.setStuAge(20);
-        student.setPhoneNumber("8278271881");
-        student.setStuSex("男");
-        int i = studentService.updateStudent(student);
-        System.out.println(i);
+        student.setStuName("官");
+         List<Student> list = studentMapper.selectStudent(student);
+        System.out.println(list);
     }
 
     @Test
@@ -101,9 +103,13 @@ class ApartmentManagementApplicationTests {
     }
 
     @Test
-    void test(){
-
+    void test() {
+        User user = new User();
+        user.setUserName("a");
+        List<User> user1 = userMapper.selectUser(user);
+        System.out.println(user1);
     }
+
 
     @Test
     void test1(){
@@ -138,7 +144,7 @@ class ApartmentManagementApplicationTests {
     public void testBcry(){
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         //加密
-        String encode = bCryptPasswordEncoder.encode("dorm");
+        String encode = bCryptPasswordEncoder.encode("123456");
 //        String encode1 = bCryptPasswordEncoder.encode("1234");
         System.out.println(passwordEncoder.matches("admin",
                 "$2a$10$HOsLKt3z8kRYcvKYm0coVOr2mSdphbrDb/5s.QXS1dpjhMWHm8pSK"));
@@ -157,11 +163,7 @@ class ApartmentManagementApplicationTests {
 
     @Test
     public void testInsert(){
-        User user = new User();
-        user.setUserName("didi");
-        user.setPassword("didi");
-        user.setUserType("dorm");
-        userService.insertUser(user);
-
+        List<Map<String, Object>> studentBedIdInDorm = liveService.getStudentBedIdInDorm(null);
+        System.out.println(studentBedIdInDorm);
     }
 }

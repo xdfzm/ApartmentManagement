@@ -37,7 +37,7 @@ public class LoginServiceImpl implements LoginService {
         }
         //通过 生成jwt  jwt存入ResponseResult返回
         LoginUser loginUser =(LoginUser) authenticate.getPrincipal();
-        String userid = loginUser.getUser().getUserId();
+        String userid = loginUser.getUser().getUserId().toString();
         String jwt = JwtUtil.createJWT(userid);
         Map<String, String> map = new HashMap<>();
         map.put("token", jwt);
@@ -52,7 +52,7 @@ public class LoginServiceImpl implements LoginService {
         //获取sercuritycontextholder用户id
         UsernamePasswordAuthenticationToken authentication = (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
         LoginUser loginUser = (LoginUser) authentication.getPrincipal();
-        String userid = loginUser.getUser().getUserId();
+        String userid = loginUser.getUser().getUserId().toString();
 
         //删除redis中的值
 

@@ -46,7 +46,7 @@ public class UserService {
         return ret;
     }
 
-    public int deleteUser(String userId){
+    public int deleteUser(Long userId){
         User user = new User();
         user.setUserId(userId);
 
@@ -59,9 +59,7 @@ public class UserService {
             return 0;
 
         }else {
-            System.out.println("=======");
-            System.out.println("enterservice");
-            System.out.println("=======");
+
             return userMapper.deleteUser(userId);
 
         }
