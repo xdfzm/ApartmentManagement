@@ -46,7 +46,7 @@ public class UserService {
         return ret;
     }
 
-    public int deleteUser(long userId){
+    public int deleteUser(String userId){
         User user = new User();
         user.setUserId(userId);
 

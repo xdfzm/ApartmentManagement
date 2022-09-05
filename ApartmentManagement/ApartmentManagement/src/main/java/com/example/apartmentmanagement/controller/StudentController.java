@@ -18,7 +18,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/student")
-//@PreAuthorize("hasAnyAuthority('admin','dorm')")
+@PreAuthorize("hasAnyAuthority('admin','dorm')")
 public class StudentController {
 
     @Autowired
@@ -26,45 +26,11 @@ public class StudentController {
 
     @Autowired
     private StudentService studentService;
-    @GetMapping("/getAll")
-    public String getStudents(int currentPage, int pageSize){
-        ResultVo resultVo = new ResultVo<>();
-        System.out.println(currentPage);
-        System.out.println(pageSize);
-        PageInfo<Student> allStudents = studentService.findAllStudents(currentPage, pageSize);
 
-        if(allStudents != null){
-            resultVo.setCode(200);
-            resultVo.setMsg("查询成功");
-            resultVo.setData(allStudents);
-        }else {
-            resultVo.setCode(500);
-            resultVo.setMsg("没有你想要的查询值");
-        }
-
-        return gson.toJson(resultVo);
-
-    }
-//
-//    @GetMapping("/get")
-//    public String getStudent(@RequestBody String stuId, @RequestBody String dormId){
-//        Map<String, Object> result = new HashMap<>();
-//        Student s = gson.fromJson(stuId, Student.class);
-//        String sId = s.getStuId();
-//        Student student = studentService.findStudentById(sId);
-//        if(student != null){
-//            result.put("result", "success");
-//        }else {
-//            result.put("result", "fail");
-//        }
-//        result.put("student", student);
-//        return gson.toJson(result);
-//    }
 
     @GetMapping("/get")
     public String getStudent(int currentPage, int pageSize, Student student){
         ResultVo resultVo = new ResultVo<>();
-//        Student s = gson.fromJson(student, Student.class);
         PageInfo<Student> student1 = studentService.findStudent(currentPage, pageSize, student);
         if(student1.getSize() != 0){
             resultVo.setCode(200);

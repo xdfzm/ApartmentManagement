@@ -9,7 +9,7 @@ public interface UserMapper {
 
     int insertUser(User user);
 
-    int deleteUser(long userId);
+    int deleteUser(String userId);
     List<User> selectUser(User user);
     List<User> selectAllUser();
 }

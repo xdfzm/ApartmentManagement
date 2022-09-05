@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Getter
 @Setter
 public class User {
-    private Long userId;
+    private String userId;
     private String userName;
 
     private String password;

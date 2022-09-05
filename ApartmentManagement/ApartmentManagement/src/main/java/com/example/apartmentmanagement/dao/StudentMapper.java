@@ -12,11 +12,6 @@ public interface StudentMapper {
 //    Student selectById();
     List<Student> selectAllStudents();
 
-//    List<Student> selectStudent(@Param("stuId") String stuId, @Param("dormId") String dormId,
-//                                @Param("stuName") String stuName,@Param("stuSex") String stuSex,
-//                                @Param("stuAge") Integer stuAge, @Param("major") String major,
-//                                @Param("faculty") String faculty, @Param("grade") Integer  grade);
-
     List<Student> selectStudent(Student student);
     int insertStudent(Student student);
 

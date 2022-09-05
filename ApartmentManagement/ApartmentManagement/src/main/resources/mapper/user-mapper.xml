@@ -32,7 +32,7 @@
         INSERT INTO user (user_id, user_name, password, user_type)
         VALUES (#{userId}, #{userName}, #{password}, #{userType})
     </insert>
-    <delete id="deleteUser" parameterType="long" >
+    <delete id="deleteUser" parameterType="String" >
         delete from user where user_id=#{userId}
     </delete>
 

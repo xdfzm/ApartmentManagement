@@ -5,6 +5,7 @@ import com.example.apartmentmanagement.utils.ResultVo;
 import com.google.gson.Gson;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +14,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/system")
+@PreAuthorize("hasAuthority('admin')")
 public class SystemController {
 
     @Autowired

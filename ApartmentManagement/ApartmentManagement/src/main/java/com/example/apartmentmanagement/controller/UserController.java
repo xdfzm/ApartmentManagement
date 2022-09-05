@@ -61,15 +61,9 @@ public class UserController {
     }
 
     @PostMapping("/delete")
-    public String deleteStudent(@RequestBody long[] userId){
+    public String deleteStudent(@RequestBody String[] userId){
         int isDelete = 0;
-        System.out.println("=========");
-        System.out.println(userId);
-        for (long l : userId) {
-            System.out.println(l);
-        }
-        System.out.println("======");
-        for (long u : userId) {
+        for (String u : userId) {
             isDelete = userService.deleteUser(u);
         }
 
