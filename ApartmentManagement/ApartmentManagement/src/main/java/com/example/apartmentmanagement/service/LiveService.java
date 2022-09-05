@@ -45,7 +45,11 @@ public class LiveService {
 
     public int insertLive(Live live){
         int ret = 0;
-        List<Live> lives = liveMapper.selectLive(live);
+        Live live1 = new Live();
+        live1.setDormId(live.getDormId());
+        live1.setBedId(live.getBedId());
+        List<Live> lives = liveMapper.selectLive(live1);
+        System.out.println(lives);
         if(lives.size() == 0){
             ret = liveMapper.insertLive(live);
         }
