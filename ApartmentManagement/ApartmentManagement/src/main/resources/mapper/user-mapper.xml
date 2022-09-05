@@ -7,14 +7,14 @@
 
 
     <select id="selectUser" resultType="User">
-        SELECT user_id, user_type
+        SELECT user_id, user_name, password, user_type
         FROM user
         WHERE 1 = 1
         <if test="userId != null and userId !=''">
             and user_id=#{userId}
         </if>
         <if test="userName != null and userName !=''">
-            and user_id=#{userId}
+            and user_name=#{userName}
         </if>
         <if test="userType !=null and userType !=''">
             and user_type=#{userType}
@@ -29,10 +29,10 @@
 <!--        VALUES (#{userName}, #{userPassword}, #{userType})-->
 <!--    </insert>-->
     <insert id="insertUser" parameterType="User" keyProperty="userId" useGeneratedKeys="true">
-        INSERT INTO user (user_name, user_password, user_type)
-        VALUES (#{userName}, #{user_password}, #{userType})
+        INSERT INTO user (user_id, user_name, password, user_type)
+        VALUES (#{userId}, #{userName}, #{password}, #{userType})
     </insert>
-    <delete id="deleteUser" parameterType="String" >
+    <delete id="deleteUser" parameterType="long" >
         delete from user where user_id=#{userId}
     </delete>
 

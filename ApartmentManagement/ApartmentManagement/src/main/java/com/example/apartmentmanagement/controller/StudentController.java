@@ -4,8 +4,11 @@ import com.alibaba.fastjson.JSON;
 import com.example.apartmentmanagement.dao.StudentMapper;
 import com.example.apartmentmanagement.entity.Student;
 import com.example.apartmentmanagement.service.StudentService;
+import com.example.apartmentmanagement.utils.ResultVo;
+import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,8 +17,8 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@CrossOrigin(origins = {"*", "null"})
 @RequestMapping("/student")
+//@PreAuthorize("hasAnyAuthority('admin','dorm')")
 public class StudentController {
 
     @Autowired
@@ -24,18 +27,22 @@ public class StudentController {
     @Autowired
     private StudentService studentService;
     @GetMapping("/getAll")
-    public String getStudents(){
-        Map<String, Object> result = new HashMap<>();
+    public String getStudents(int currentPage, int pageSize){
+        ResultVo resultVo = new ResultVo<>();
+        System.out.println(currentPage);
+        System.out.println(pageSize);
+        PageInfo<Student> allStudents = studentService.findAllStudents(currentPage, pageSize);
 
-        List<Student> students = studentService.findAllStudents();
-
-        if(students != null){
-            result.put("result", "success");
+        if(allStudents != null){
+            resultVo.setCode(200);
+            resultVo.setMsg("查询成功");
+            resultVo.setData(allStudents);
         }else {
-            result.put("result", "fail");
+            resultVo.setCode(500);
+            resultVo.setMsg("没有你想要的查询值");
         }
-        result.put("studentList", students);
-        return gson.toJson(result);
+
+        return gson.toJson(resultVo);
 
     }
 //
@@ -55,69 +62,68 @@ public class StudentController {
 //    }
 
     @GetMapping("/get")
-    public String getStudent(@RequestBody String student){
-        Map<String, Object> result = new HashMap<>();
-        Student s = gson.fromJson(student, Student.class);
-        List<Student> retStu = studentService.findStudent(s);
-        if(retStu.size() != 0){
-            result.put("result", "success");
+    public String getStudent(int currentPage, int pageSize, Student student){
+        ResultVo resultVo = new ResultVo<>();
+//        Student s = gson.fromJson(student, Student.class);
+        PageInfo<Student> student1 = studentService.findStudent(currentPage, pageSize, student);
+        if(student1.getSize() != 0){
+            resultVo.setCode(200);
+            resultVo.setMsg("查询成功");
+            resultVo.setData(student1);
         }else {
-            result.put("result", "fail");
+            resultVo.setCode(500);
+            resultVo.setMsg("没有你想要的查询结果");
+
         }
-        result.put("student", retStu);
-        return gson.toJson(result);
+        return gson.toJson(resultVo);
     }
-    @GetMapping("/gettest/{id}/{currentPage}/{pageSize}")
-    public String getStudentTest(@PathVariable("id") String id,
-                                 @PathVariable("currentPage") int currentPage,
-                                 @PathVariable("pageSize") int pageSize,
-                                 @RequestBody String[] ids){
-        System.out.println(id);
-        System.out.println(currentPage);
-        System.out.println(pageSize);
-        for (String s : ids) {
-            System.out.println(id);
-        }
-        return JSON.toJSONString(ids);
-    }
+
     @PostMapping("/add")
     public String addStudent(@RequestBody Student student){
-        System.out.println(student);
+        ResultVo resultVo = new ResultVo<>();
         int isInsert = studentService.insertStudent(student);
-        Map<String, Object> result = new HashMap<>();
-        if(isInsert == 0){
-            result.put("result", "fail");
+        if(isInsert != 0){
+            resultVo.setCode(200);
+            resultVo.setMsg("添加成功");
         }else {
-            result.put("result", "success");
+            resultVo.setCode(500);
+            resultVo.setMsg("添加失败");
         }
-        return gson.toJson(result);
+        return gson.toJson(resultVo);
     }
 
     @PostMapping("/delete")
-    public String deleteStudent(@RequestBody String stuId){
-        Student s = gson.fromJson(stuId, Student.class);
-        String sId = s.getStuId();
-        int isDelete = studentService.deleteStudent(sId);
-        Map<String, Object> result = new HashMap<>();
-        if(isDelete == 0){
-            result.put("result", "fail");
-        }else {
-            result.put("result", "success");
+    public String deleteStudent(@RequestBody String[] stuId){
+        int isDelete = 0;
+        for (String s : stuId) {
+            isDelete = studentService.deleteStudent(s);
         }
-        return gson.toJson(result);
+
+        ResultVo resultVo = new ResultVo<>();
+
+        if(isDelete != 0){
+            resultVo.setCode(200);
+            resultVo.setMsg("删除成功");
+        }else {
+            resultVo.setCode(500);
+            resultVo.setMsg("删除失败");
+        }
+        return gson.toJson(resultVo);
     }
 
     @PostMapping("/update")
     public String updateStudent(@RequestBody Student student){
-        System.out.println(student);
+        ResultVo resultVo = new ResultVo<>();
         int isUpdate = studentService.updateStudent(student);
-        Map<String, Object> result = new HashMap<>();
-        if(isUpdate == 0){
-            result.put("result", "fail");
+
+        if(isUpdate != 0){
+            resultVo.setCode(200);
+            resultVo.setMsg("修改成功");
         }else {
-            result.put("result", "success");
+            resultVo.setCode(500);
+            resultVo.setMsg("修改失败");
         }
-        return gson.toJson(result);
+        return gson.toJson(resultVo);
     }
 
 }

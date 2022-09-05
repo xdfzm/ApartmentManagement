@@ -2,7 +2,11 @@ package com.example.apartmentmanagement.service;
 
 import com.example.apartmentmanagement.dao.UserMapper;
 import com.example.apartmentmanagement.entity.User;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,18 +16,31 @@ public class UserService {
     @Autowired
     private UserMapper userMapper;
 
-    public List<User> selectUser(User user){
-        List<User> users = userMapper.selectUser(user);
-        return users;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+//    public List<User> selectUser(User user){
+//        List<User> users = userMapper.selectUser(user);
+//        return users;
+//    }
+    public PageInfo<User> selectUser(int currentPage, int pageSize, User user){
+        PageHelper.startPage(currentPage, pageSize);
+       List<User> users = userMapper.selectUser(user);
+       PageInfo<User> pageInfo = new PageInfo<>(users);
+       return pageInfo;
     }
-    public List<User> selectAllUser(){
+    public PageInfo<User> selectAllUser(int currentPage, int pageSize){
+        PageHelper.startPage(currentPage, pageSize);
         List<User> users = userMapper.selectAllUser();
-        return users;
+        PageInfo<User> pageInfo = new PageInfo<>(users);
+        return pageInfo;
     }
     public int insertUser(User user){
         List<User> users = userMapper.selectUser(user);
         int ret = 0;
         if(users.size() == 0){
+            BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
             ret = userMapper.insertUser(user);
         }
         return ret;
@@ -32,11 +49,22 @@ public class UserService {
     public int deleteUser(long userId){
         User user = new User();
         user.setUserId(userId);
+
         List<User> users = userMapper.selectUser(user);
         int ret = 0;
         if(users.size() == 0){
-            ret = userMapper.insertUser(user);
+
+
+            System.out.println("sjabi");
+            return 0;
+
+        }else {
+            System.out.println("=======");
+            System.out.println("enterservice");
+            System.out.println("=======");
+            return userMapper.deleteUser(userId);
+
         }
-        return 0;
+
     }
 }

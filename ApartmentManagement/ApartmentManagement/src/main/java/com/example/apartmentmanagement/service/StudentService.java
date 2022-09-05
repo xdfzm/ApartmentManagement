@@ -2,6 +2,8 @@ package com.example.apartmentmanagement.service;
 
 import com.example.apartmentmanagement.dao.StudentMapper;
 import com.example.apartmentmanagement.entity.Student;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,14 +25,32 @@ public class StudentService {
         return result;
     }
 
-    public List<Student> findStudent(Student student){
+//    public List<Student> findStudent(Student student){
+//        List<Student> students = studentMapper.selectStudent(student);
+//        return students;
+//    }
+    public PageInfo<Student> findStudent(int currentPage, int pageSize, Student student){
+        PageHelper.startPage(currentPage, pageSize);
+
         List<Student> students = studentMapper.selectStudent(student);
-        return students;
+
+        PageInfo<Student> pageInfo = new PageInfo<>(students);
+
+         return pageInfo;
     }
-    public List<Student> findAllStudents(){
+//    public List<Student> findAllStudents(){
+//        List<Student> students = studentMapper.selectAllStudents();
+//        return students;
+//    }
+      public PageInfo<Student> findAllStudents(int currentPage, int pageSize){
+        PageHelper.startPage(currentPage, pageSize);
+
         List<Student> students = studentMapper.selectAllStudents();
-        return students;
-    }
+
+        PageInfo<Student> pageInfo = new PageInfo<>(students);
+
+        return pageInfo;
+      }
 
     public Student findStudentById(String stuId){
         Student student = studentMapper.selectById(stuId);

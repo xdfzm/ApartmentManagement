@@ -1,18 +1,22 @@
 package com.example.apartmentmanagement;
 
-import com.alibaba.fastjson.JSON;
 import com.example.apartmentmanagement.dao.StudentMapper;
+import com.example.apartmentmanagement.dao.SysMapper;
 import com.example.apartmentmanagement.dao.UserMapper;
 import com.example.apartmentmanagement.entity.Student;
 import com.example.apartmentmanagement.entity.User;
 import com.example.apartmentmanagement.service.StudentService;
 import com.example.apartmentmanagement.service.UserService;
+import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootTest
@@ -28,6 +32,15 @@ class ApartmentManagementApplicationTests {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private UserDetailsService userDetailsService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private SysMapper sysMapper;
     @Test
     void contextLoads() {
     }
@@ -60,9 +73,9 @@ class ApartmentManagementApplicationTests {
     }
     @Test
     void testService(){
-        List<Student> allStudent = studentService.findAllStudents();
+//        List<Student> allStudent = studentService.findAllStudents();
 
-        System.out.println(allStudent);
+//        System.out.println(allStudent);
     }
 
     @Test
@@ -94,20 +107,19 @@ class ApartmentManagementApplicationTests {
 
     @Test
     void test1(){
-        int i = userMapper.deleteUser("admin2");
-        System.out.println(i);
+
     }
     
     @Test
     void test123(){
-        List<User> users = userService.selectUser(null);
-        System.out.println(users);
+
     }
 
     @Test
     void test1234(){
         User user = new User();
         user.setUserName("dorm2");
+        user.setPassword("asdasd");
         user.setUserType("dorm");
         int i = userMapper.insertUser(user);
         System.out.println(i);
@@ -116,4 +128,40 @@ class ApartmentManagementApplicationTests {
     }
 
 
+    @Test
+    void test1123123(){
+        UserDetails admin = userDetailsService.loadUserByUsername("admin");
+        System.out.println(admin);
+    }
+
+    @Test
+    public void testBcry(){
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        //加密
+        String encode = bCryptPasswordEncoder.encode("dorm");
+//        String encode1 = bCryptPasswordEncoder.encode("1234");
+        System.out.println(passwordEncoder.matches("admin",
+                "$2a$10$HOsLKt3z8kRYcvKYm0coVOr2mSdphbrDb/5s.QXS1dpjhMWHm8pSK"));
+        System.out.println(encode);
+//        System.out.println(encode1);
+
+    }
+
+    @Test
+    public void testslpit(){
+        PageInfo<Student> student = studentService.findStudent(2, 5, null);
+        List<Student> list = student.getList();
+        System.out.println(list.size());
+        System.out.println(list);
+    }
+
+    @Test
+    public void testInsert(){
+        User user = new User();
+        user.setUserName("didi");
+        user.setPassword("didi");
+        user.setUserType("dorm");
+        userService.insertUser(user);
+
+    }
 }
