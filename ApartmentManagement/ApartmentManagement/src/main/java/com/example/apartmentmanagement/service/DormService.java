@@ -86,4 +86,26 @@ public class DormService {
         int LiveNumber = dormMapper.findLive(dormId);
         return LiveNumber;
     }
+
+
+    /**
+     * 查询某个宿舍剩余床数
+     * @param dormId
+     * @return
+     */
+    public int findRemainder(String dormId){
+        return dormMapper.findRemainder(dormId);
+    }
+
+    public int findTotal(String dormId){
+        return dormMapper.findTotal(dormId);
+    }
+
+    public int addRemainder(String dormId){
+        return dormMapper.addRemainder(dormId);
+    }
+
+    public int reduceRemainder(String dormId){
+        return dormMapper.reduceRemainder(dormId);
+    }
 }

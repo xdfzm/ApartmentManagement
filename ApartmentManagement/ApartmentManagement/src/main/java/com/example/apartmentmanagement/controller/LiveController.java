@@ -46,9 +46,6 @@ public class LiveController {
         ResultVo resultVo = new ResultVo<>();
         int isInsert = liveService.insertLive(live);
 
-        //修改宿舍剩余数量
-
-
         if(isInsert != 0){
             resultVo.setCode(200);
             resultVo.setMsg("添加成功");
@@ -64,12 +61,9 @@ public class LiveController {
         int isDelete = 0;
         isDelete = liveService.deleteLive(stuId);
 
-        //修改宿舍剩余床位
-
-
         ResultVo resultVo = new ResultVo<>();
 
-        if(isDelete != 0){
+        if(isDelete >= stuId.length){
             resultVo.setCode(200);
             resultVo.setMsg("删除成功");
         }else {

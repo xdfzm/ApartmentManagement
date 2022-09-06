@@ -1,9 +1,6 @@
 package com.example.apartmentmanagement;
 
-import com.example.apartmentmanagement.dao.LiveMapper;
-import com.example.apartmentmanagement.dao.StudentMapper;
-import com.example.apartmentmanagement.dao.SysMapper;
-import com.example.apartmentmanagement.dao.UserMapper;
+import com.example.apartmentmanagement.dao.*;
 import com.example.apartmentmanagement.entity.Live;
 import com.example.apartmentmanagement.entity.Student;
 import com.example.apartmentmanagement.entity.User;
@@ -32,6 +29,8 @@ class ApartmentManagementApplicationTests {
     @Autowired
     private StudentService studentService;
 
+    @Autowired
+    private DormMapper dormMapper;
     @Autowired
     private UserMapper userMapper;
 
@@ -163,10 +162,6 @@ class ApartmentManagementApplicationTests {
 
     @Test
     public void testInsert(){
-        List<Integer> list = new ArrayList<>();
-        list.add(1);
-        list.add(2);
-        list.add(3);
-        System.out.println(list.contains(4));
+        System.out.println(dormMapper.reduceRemainder("101"));
     }
 }

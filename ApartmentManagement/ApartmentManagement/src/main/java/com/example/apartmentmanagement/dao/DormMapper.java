@@ -22,5 +22,13 @@ public interface DormMapper {
     int deleteDorm(String dormId);
 
     int findLive(String dormId);
+
+    int findRemainder(String dormId);
+
+    int findTotal(String dormId);
+
+    int addRemainder(String dormId);
+
+    int reduceRemainder(String dormId);
 }
 

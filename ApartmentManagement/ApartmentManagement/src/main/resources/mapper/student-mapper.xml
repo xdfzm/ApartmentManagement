@@ -82,7 +82,7 @@
     <insert id="insertStudent" parameterType="Student" keyProperty="stu_id">
         INSERT INTO student (<include refid="selectFields"></include>)
         VALUES (#{stuId}, #{stuName}, #{stuSex}, #{stuAge},
-        #{major}, #{faculty}, #{grade}, #{waterNumber}, #{phoneNumber},#{electricNumber})
+        #{major}, #{faculty}, #{grade}, 0, #{phoneNumber},0)
     </insert>
 
     <delete id="deleteStudent" parameterType="String" >
@@ -112,8 +112,14 @@
             <if test="grade !=null and grade !=''">
                 grade=#{grade},
             </if>
+            <if test="waterNumber !=null and waterNumber !=''">
+                water_number=#{waterNumber}
+            </if>
             <if test="phoneNumber !=null and phoneNumber !=''">
                 phone_number=#{phoneNumber}
+            </if>
+            <if test="electricNumber !=null and electricNumber !=''">
+                electric_number=#{electricNumber}
             </if>
         </set>
         where stu_id = #{stuId}
