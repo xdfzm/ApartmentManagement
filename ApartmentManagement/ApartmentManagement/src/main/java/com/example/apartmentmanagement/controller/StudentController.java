@@ -3,6 +3,7 @@ package com.example.apartmentmanagement.controller;
 import com.alibaba.fastjson.JSON;
 import com.example.apartmentmanagement.dao.StudentMapper;
 import com.example.apartmentmanagement.entity.Student;
+import com.example.apartmentmanagement.service.LiveService;
 import com.example.apartmentmanagement.service.StudentService;
 import com.example.apartmentmanagement.utils.ResultVo;
 import com.github.pagehelper.PageInfo;
@@ -28,6 +29,9 @@ public class StudentController {
     @Autowired
     private StudentService studentService;
 
+    @Autowired
+    private LiveService liveService;
+
 
 //    @GetMapping("/get")
 //    public String getStudent(int currentPage, int pageSize, Student student){
@@ -49,10 +53,15 @@ public class StudentController {
     public String getStudent(int currentPage, int pageSize, Student student){
         ResultVo resultVo = new ResultVo<>();
         PageInfo<Student> student1 = studentService.findStudent(currentPage, pageSize, student);
-        List<Map<String,Object>> list = new ArrayList<>();
+
         if(student1.getSize() != 0){
             resultVo.setCode(200);
             resultVo.setMsg("查询成功");
+            List<Student> list = student1.getList();
+            for (Student student2 : list) {
+
+            }
+
             resultVo.setData(student1);
         }else {
             resultVo.setCode(500);
