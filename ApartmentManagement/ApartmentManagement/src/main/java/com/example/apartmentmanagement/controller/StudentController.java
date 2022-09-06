@@ -12,6 +12,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,10 +29,27 @@ public class StudentController {
     private StudentService studentService;
 
 
+//    @GetMapping("/get")
+//    public String getStudent(int currentPage, int pageSize, Student student){
+//        ResultVo resultVo = new ResultVo<>();
+//        PageInfo<Student> student1 = studentService.findStudent(currentPage, pageSize, student);
+//        if(student1.getSize() != 0){
+//            resultVo.setCode(200);
+//            resultVo.setMsg("查询成功");
+//            resultVo.setData(student1);
+//        }else {
+//            resultVo.setCode(500);
+//            resultVo.setMsg("没有你想要的查询结果");
+//
+//        }
+//        return gson.toJson(resultVo);
+//    }
+
     @GetMapping("/get")
     public String getStudent(int currentPage, int pageSize, Student student){
         ResultVo resultVo = new ResultVo<>();
         PageInfo<Student> student1 = studentService.findStudent(currentPage, pageSize, student);
+        List<Map<String,Object>> list = new ArrayList<>();
         if(student1.getSize() != 0){
             resultVo.setCode(200);
             resultVo.setMsg("查询成功");
@@ -43,7 +61,6 @@ public class StudentController {
         }
         return gson.toJson(resultVo);
     }
-
     @PostMapping("/add")
     public String addStudent(@RequestBody Student student){
         System.out.println("===========");

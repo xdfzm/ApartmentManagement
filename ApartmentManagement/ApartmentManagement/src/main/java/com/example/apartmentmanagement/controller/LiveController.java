@@ -22,6 +22,25 @@ public class LiveController {
     @Autowired
     private Gson gson = new Gson();
 
+//    @GetMapping("/get")
+//    public String getStudentBedIdByDorm(String dormId){
+//        System.out.println(dormId);
+//
+//
+//        ResultVo resultVo = new ResultVo<>();
+//        List<Map<String, Object>> studentBedIdInDorm = liveService.getStudentBedIdInDorm(dormId);
+//
+//        if(studentBedIdInDorm.size() != 0){
+//            resultVo.setCode(200);
+//            resultVo.setMsg("查询成功");
+//            resultVo.setData(studentBedIdInDorm);
+//        }else{
+//            resultVo.setCode(500);
+//            resultVo.setMsg("没有你想要的结果");
+//        }
+//        return gson.toJson(resultVo);
+//    }
+
     @GetMapping("/get")
     public String getStudentBedIdByDorm(String dormId){
         System.out.println(dormId);
@@ -40,7 +59,6 @@ public class LiveController {
         }
         return gson.toJson(resultVo);
     }
-
     @PostMapping("/add")
     public String addLive(@RequestBody Live live){
         ResultVo resultVo = new ResultVo<>();

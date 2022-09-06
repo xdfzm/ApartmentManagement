@@ -66,6 +66,11 @@ public class LiveService {
         int ret = 0;
         Live live1 = new Live();
         int canInsert = 0;//0 可以添加 1 不可添加
+        //用户不存在不可以添加
+        Student student = studentMapper.selectById(live.getStuId());
+        if(Objects.isNull(student)){
+            canInsert++;
+        }
         //选择床位数大于总的床位数也不可以添加
         int total = dormService.findTotal(live.getDormId());
         if(live.getBedId()>total){
@@ -97,6 +102,7 @@ public class LiveService {
     public int deleteLive(String[] stuId){
         int ret = 0;
         for (String s : stuId) {
+
             //将这个用户住的宿舍的remainder+1
             Live live = new Live();
             live.setStuId(s);
@@ -114,6 +120,11 @@ public class LiveService {
     public int updateLive(Live live){
         int ret = 0;
         int canUpdate = 0;//0 可以update 1 不可update
+        //用户不存在不可以添加
+        Student student = studentMapper.selectById(live.getStuId());
+        if(Objects.isNull(student)){
+            canUpdate++;
+        }
         //选择床位数大于总的床位数也不可以添加
         int total = dormService.findTotal(live.getDormId());
         if(live.getBedId()>total){
