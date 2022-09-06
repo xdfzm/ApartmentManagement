@@ -1,6 +1,7 @@
 package com.example.apartmentmanagement.controller;
 
 import com.example.apartmentmanagement.entity.Live;
+import com.example.apartmentmanagement.entity.Student;
 import com.example.apartmentmanagement.service.LiveService;
 import com.example.apartmentmanagement.utils.ResultVo;
 import com.github.wnameless.json.flattener.JsonFlattener;
@@ -43,7 +44,11 @@ public class LiveController {
     @PostMapping("/add")
     public String addLive(@RequestBody Live live){
         ResultVo resultVo = new ResultVo<>();
-        int isInsert = liveService.insertLive(live);;
+        int isInsert = liveService.insertLive(live);
+
+        //修改宿舍剩余数量
+
+
         if(isInsert != 0){
             resultVo.setCode(200);
             resultVo.setMsg("添加成功");
@@ -59,6 +64,9 @@ public class LiveController {
         int isDelete = 0;
         isDelete = liveService.deleteLive(stuId);
 
+        //修改宿舍剩余床位
+
+
         ResultVo resultVo = new ResultVo<>();
 
         if(isDelete != 0){
@@ -67,6 +75,21 @@ public class LiveController {
         }else {
             resultVo.setCode(500);
             resultVo.setMsg("删除失败");
+        }
+        return gson.toJson(resultVo);
+    }
+
+    @PostMapping("/update")
+    public String updateStudent(@RequestBody Live live){
+        ResultVo resultVo = new ResultVo<>();
+        int isUpdate = liveService.updateLive(live);
+
+        if(isUpdate != 0){
+            resultVo.setCode(200);
+            resultVo.setMsg("修改成功");
+        }else {
+            resultVo.setCode(500);
+            resultVo.setMsg("修改失败");
         }
         return gson.toJson(resultVo);
     }

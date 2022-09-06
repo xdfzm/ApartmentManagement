@@ -15,4 +15,6 @@ public interface LiveMapper {
     public List<Live> selectLive(Live live);
 
     public int deleteLive(String stuId);
+
+    public int updateLive(Live live);
 }

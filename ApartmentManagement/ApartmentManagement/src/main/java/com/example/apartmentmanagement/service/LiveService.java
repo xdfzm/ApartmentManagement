@@ -64,4 +64,9 @@ public class LiveService {
         return ret;
     }
 
+    public int updateLive(Live live){
+        int ret = 0;
+        ret = liveMapper.updateLive(live);
+        return ret;
+    }
 }

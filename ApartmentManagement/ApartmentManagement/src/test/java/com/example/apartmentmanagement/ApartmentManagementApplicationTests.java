@@ -69,7 +69,6 @@ class ApartmentManagementApplicationTests {
     void testInsertMapper(){
         Student student = new Student();
         student.setStuId("22020200027");
-        student.setDormId("121");
         student.setFaculty("计算机科学与技术");
         student.setMajor("软件工程");
         student.setGrade(1);
@@ -163,7 +162,10 @@ class ApartmentManagementApplicationTests {
 
     @Test
     public void testInsert(){
-        List<Map<String, Object>> studentBedIdInDorm = liveService.getStudentBedIdInDorm(null);
-        System.out.println(studentBedIdInDorm);
+        Live live = new Live();
+        live.setStuId("1166");
+        live.setDormId("104");
+        live.setBedId(1);
+        liveMapper.updateLive(live);
     }
 }

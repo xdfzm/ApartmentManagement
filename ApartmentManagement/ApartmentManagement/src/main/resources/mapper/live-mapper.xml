@@ -41,4 +41,7 @@
     </delete>
 
 
+    <update id="updateLive" parameterType="int">
+        update live set dorm_id = ${dormId}, bed_id = ${bedId} where stu_id = #{stuId}
+    </update>
 </mapper>
