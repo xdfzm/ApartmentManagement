@@ -16,8 +16,8 @@ public class Student {
     private String major;
     private String faculty;
     private Integer grade;
-    private Double useNumber;
+    private Double waterNumber;
     private String phoneNumber;
-
+    private Double electricNumber;
 
 }

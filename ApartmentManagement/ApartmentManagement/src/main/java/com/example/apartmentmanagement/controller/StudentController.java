@@ -46,6 +46,8 @@ public class StudentController {
 
     @PostMapping("/add")
     public String addStudent(@RequestBody Student student){
+        System.out.println("===========");
+        System.out.println(student);
         ResultVo resultVo = new ResultVo<>();
         int isInsert = studentService.insertStudent(student);
         if(isInsert != 0){

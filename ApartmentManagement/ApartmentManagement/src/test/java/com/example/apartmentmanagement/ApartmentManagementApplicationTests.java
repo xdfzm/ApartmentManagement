@@ -20,6 +20,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -162,10 +163,10 @@ class ApartmentManagementApplicationTests {
 
     @Test
     public void testInsert(){
-        Live live = new Live();
-        live.setStuId("1166");
-        live.setDormId("104");
-        live.setBedId(1);
-        liveMapper.updateLive(live);
+        List<Integer> list = new ArrayList<>();
+        list.add(1);
+        list.add(2);
+        list.add(3);
+        System.out.println(list.contains(4));
     }
 }

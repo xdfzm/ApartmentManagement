@@ -27,6 +27,11 @@ public class LiveService {
 
         List<Map<String, Object>> ret = new ArrayList<>();
 
+        //获取宿舍总数量
+        int total = 10;
+
+        //使用list来判断某个床位是否被占用
+        List<Integer> list = new ArrayList<>();
         if(lives.size() != 0){
             for (Live life : lives) {
                 Map<String, Object> mp = new HashMap<>();
@@ -37,6 +42,16 @@ public class LiveService {
                 System.out.println("bedId" + life.getBedId());
                 mp.put("student", student);
                 mp.put("bedId", life.getBedId());
+                list.add(life.getBedId());
+                ret.add(mp);
+            }
+        }
+        //增加那些空缺的床位
+        for (int i = 1; i <= total; i++) {
+            if(!list.contains(i)){
+                Map<String, Object> mp = new HashMap<>();
+                mp.put("student", null);
+                mp.put("bedId", i);
                 ret.add(mp);
             }
         }

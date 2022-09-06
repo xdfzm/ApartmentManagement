@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.apartmentmanagement.dao.StudentMapper">
     <sql id="selectFields">
-        stu_id, stu_name, stu_sex, stu_age, major, faculty, grade, use_number, phone_number
+        stu_id, stu_name, stu_sex, stu_age, major, faculty, grade, water_number, phone_number, electric_number
     </sql>
 
 
@@ -82,7 +82,7 @@
     <insert id="insertStudent" parameterType="Student" keyProperty="stu_id">
         INSERT INTO student (<include refid="selectFields"></include>)
         VALUES (#{stuId}, #{stuName}, #{stuSex}, #{stuAge},
-        #{major}, #{faculty}, #{grade}, #{useNumber}, #{phoneNumber})
+        #{major}, #{faculty}, #{grade}, #{waterNumber}, #{phoneNumber},#{electricNumber})
     </insert>
 
     <delete id="deleteStudent" parameterType="String" >
@@ -111,9 +111,6 @@
             </if>
             <if test="grade !=null and grade !=''">
                 grade=#{grade},
-            </if>
-            <if test="useNumber !=null ">
-                use_number=#{useNumber},
             </if>
             <if test="phoneNumber !=null and phoneNumber !=''">
                 phone_number=#{phoneNumber}
