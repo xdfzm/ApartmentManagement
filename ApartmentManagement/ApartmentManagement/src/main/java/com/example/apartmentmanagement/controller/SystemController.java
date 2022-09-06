@@ -14,7 +14,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/system")
-@PreAuthorize("hasAuthority('admin')")
+//@PreAuthorize("hasAuthority('admin')")
 public class SystemController {
 
     @Autowired
