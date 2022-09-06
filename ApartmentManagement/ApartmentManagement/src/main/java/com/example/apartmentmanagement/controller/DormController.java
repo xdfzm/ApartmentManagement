@@ -52,7 +52,7 @@ public class DormController {
         }
         else {
             resultVo.setCode(500);
-            resultVo.setMsg("没有你想要的查询结果");
+            resultVo.setMsg("宿舍不存在");
 
         }
         return gson.toJson(resultVo);
@@ -81,7 +81,7 @@ public class DormController {
             resultVo.setMsg("添加成功");
         }else {
             resultVo.setCode(500);
-            resultVo.setMsg("添加失败");
+            resultVo.setMsg("添加失败，宿舍已存在");
         }
         return gson.toJson(resultVo);
     }
@@ -102,7 +102,7 @@ public class DormController {
             resultVo.setMsg("删除成功");
         }else {
             resultVo.setCode(500);
-            resultVo.setMsg("删除失败");
+            resultVo.setMsg("删除失败，宿舍不存在");
         }
         return gson.toJson(resultVo);
     }
@@ -123,7 +123,7 @@ public class DormController {
             resultVo.setMsg("修改成功");
         }else {
             resultVo.setCode(500);
-            resultVo.setMsg("修改失败");
+            resultVo.setMsg("修改失败，宿舍不存在");
         }
         return gson.toJson(resultVo);
     }
@@ -140,7 +140,7 @@ public class DormController {
             resultVo.setData(accessDorms);
         }else {
             resultVo.setCode(500);
-            resultVo.setMsg("没有你想要的查询值");
+            resultVo.setMsg("没有可入住宿舍");
         }
 
         return gson.toJson(resultVo);
