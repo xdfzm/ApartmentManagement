@@ -1,5 +1,6 @@
 package com.example.apartmentmanagement.controller;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import javax.servlet.http.HttpServletResponse;
@@ -99,7 +100,7 @@ ResultVo resultVo = new ResultVo<>();
             resultVo.setMsg("不存在该宿舍");
             return JSON.toJSONString(resultVo);
         }
-
+        maintenanceInfo.setApplicationTime(new Date());
         int ret = maintenanceInfoService.insertMaintenanceInfo(maintenanceInfo);
         if(ret!=0){
             resultVo.setCode(200);

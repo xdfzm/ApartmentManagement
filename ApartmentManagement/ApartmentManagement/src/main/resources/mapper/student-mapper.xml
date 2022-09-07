@@ -14,35 +14,7 @@
         WHERE stu_id = #{stuId}
     </select>
 
-<!--    <select id="selectStudent" resultType="Student">-->
-<!--        SELECT <include refid="selectFields"></include>-->
-<!--        FROM student-->
-<!--        WHERE 1 = 1-->
-<!--        <if test="stuId != null and stuId !=''">-->
-<!--            and stu_id=#{stuId}-->
-<!--        </if>-->
-<!--        <if test="dormId !=null and dormId !=''">-->
-<!--            and dorm_id=#{dormId}-->
-<!--        </if>-->
-<!--        <if test="stuName !=null and stuName !=''">-->
-<!--            and stu_name=#{stuName}-->
-<!--        </if>-->
-<!--        <if test="stuSex !=null and stuSex !=''">-->
-<!--            and stu_sex=#{stuSex}-->
-<!--        </if>-->
-<!--        <if test="stuAge !=null and stuAge !=''">-->
-<!--            and stu_age=#{stuAge}-->
-<!--        </if>-->
-<!--        <if test="major!=null and major!=''">-->
-<!--            and major=#{major}-->
-<!--        </if>-->
-<!--        <if test="faculty !=null and faculty !=''">-->
-<!--            and faculty=#{faculty}-->
-<!--        </if>-->
-<!--        <if test="grade !=null and grade !=''">-->
-<!--            and grade=#{grade}-->
-<!--        </if>-->
-<!--    </select>-->
+
 
     <select id="selectStudent" resultType="Student">
         SELECT <include refid="selectFields"></include>
@@ -50,9 +22,6 @@
         WHERE 1 = 1
         <if test="stuId != null and stuId !=''">
             and stu_id=#{stuId}
-        </if>
-        <if test="dormId !=null and dormId !=''">
-            and dorm_id=#{dormId}
         </if>
         <if test="stuName !=null and stuName !=''">
             and stu_name like "%"#{stuName}"%"
