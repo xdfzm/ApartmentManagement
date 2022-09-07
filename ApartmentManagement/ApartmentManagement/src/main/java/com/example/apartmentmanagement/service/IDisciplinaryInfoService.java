@@ -1,6 +1,7 @@
 package com.example.apartmentmanagement.service;
 
 import com.example.apartmentmanagement.entity.DisciplinaryInfo;
+import com.github.pagehelper.PageInfo;
 
 import java.util.List;
 
@@ -26,7 +27,7 @@ public interface IDisciplinaryInfoService
      * @param disciplinaryInfo 违纪信息
      * @return 违纪信息集合
      */
-    public List<DisciplinaryInfo> selectDisciplinaryInfoList(DisciplinaryInfo disciplinaryInfo);
+    public PageInfo<DisciplinaryInfo> selectDisciplinaryInfoList(int currentPage, int pageSize, DisciplinaryInfo disciplinaryInfo);
 
     /**
      * 新增违纪信息

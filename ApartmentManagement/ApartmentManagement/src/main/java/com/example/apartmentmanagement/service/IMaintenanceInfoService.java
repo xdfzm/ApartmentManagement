@@ -1,6 +1,7 @@
 package com.example.apartmentmanagement.service;
 
 import com.example.apartmentmanagement.entity.MaintenanceInfo;
+import com.github.pagehelper.PageInfo;
 
 import java.util.List;
 
@@ -26,7 +27,7 @@ public interface IMaintenanceInfoService
      * @param maintenanceInfo 保修信息
      * @return 保修信息集合
      */
-    public List<MaintenanceInfo> selectMaintenanceInfoList(MaintenanceInfo maintenanceInfo);
+    public PageInfo<MaintenanceInfo> selectMaintenanceInfoList(int currentPage, int pageSize, MaintenanceInfo maintenanceInfo);
 
     /**
      * 新增保修信息

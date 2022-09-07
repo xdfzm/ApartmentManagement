@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.example.apartmentmanagement.dao.MaintenanceInfoMapper;
 import com.example.apartmentmanagement.entity.MaintenanceInfo;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.apartmentmanagement.service.IMaintenanceInfoService;
@@ -39,9 +41,15 @@ public class MaintenanceInfoServiceImpl implements IMaintenanceInfoService
      * @return 保修信息
      */
     @Override
-    public List<MaintenanceInfo> selectMaintenanceInfoList(MaintenanceInfo maintenanceInfo)
+    public PageInfo<MaintenanceInfo> selectMaintenanceInfoList(int currentPage, int pageSize, MaintenanceInfo maintenanceInfo)
     {
-        return maintenanceInfoMapper.selectMaintenanceInfoList(maintenanceInfo);
+        PageHelper.startPage(currentPage, pageSize);
+
+        List<MaintenanceInfo> maintenanceInfos = maintenanceInfoMapper.selectMaintenanceInfoList(maintenanceInfo);
+
+        PageInfo<MaintenanceInfo> maintenanceInfoPageInfo = new PageInfo<>(maintenanceInfos);
+
+        return maintenanceInfoPageInfo;
     }
 
     /**

@@ -67,7 +67,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         delete from maintenance_info where id = #{id}
     </delete>
 
-    <delete id="deleteMaintenanceInfoByIds" parameterType="String">
+    <delete id="deleteMaintenanceInfoByIds" parameterType="Long">
         delete from maintenance_info where id in 
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}

@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.example.apartmentmanagement.dao.DisciplinaryInfoMapper;
 import com.example.apartmentmanagement.entity.DisciplinaryInfo;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.apartmentmanagement.service.IDisciplinaryInfoService;
@@ -39,9 +41,15 @@ public class DisciplinaryInfoServiceImpl implements IDisciplinaryInfoService
      * @return 违纪信息
      */
     @Override
-    public List<DisciplinaryInfo> selectDisciplinaryInfoList(DisciplinaryInfo disciplinaryInfo)
+    public PageInfo<DisciplinaryInfo> selectDisciplinaryInfoList(int currentPage, int pageSize, DisciplinaryInfo disciplinaryInfo)
     {
-        return disciplinaryInfoMapper.selectDisciplinaryInfoList(disciplinaryInfo);
+        PageHelper.startPage(currentPage, pageSize);
+
+        List<DisciplinaryInfo> disciplinaryInfos = disciplinaryInfoMapper.selectDisciplinaryInfoList(disciplinaryInfo);
+
+        PageInfo<DisciplinaryInfo> pageInfo = new PageInfo<>(disciplinaryInfos);
+
+        return pageInfo;
     }
 
     /**
