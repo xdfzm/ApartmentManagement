@@ -17,4 +17,6 @@ public interface LiveMapper {
     public int deleteLive(String stuId);
 
     public int updateLive(Live live);
+
+    public String selectDormIdByStuId(String stuId);
 }

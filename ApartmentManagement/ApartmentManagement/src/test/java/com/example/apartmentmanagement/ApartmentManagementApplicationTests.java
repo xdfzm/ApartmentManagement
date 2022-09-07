@@ -154,14 +154,12 @@ class ApartmentManagementApplicationTests {
 
     @Test
     public void testslpit(){
-        PageInfo<Student> student = studentService.findStudent(2, 5, null);
-        List<Student> list = student.getList();
-        System.out.println(list.size());
-        System.out.println(list);
+
     }
 
     @Test
     public void testInsert(){
-        System.out.println(dormMapper.reduceRemainder("101"));
+        String s = liveService.selectDormIdByStuId("109");
+        System.out.println(s);
     }
 }

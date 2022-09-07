@@ -2,10 +2,12 @@ package com.example.apartmentmanagement.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.example.apartmentmanagement.dao.StudentMapper;
+import com.example.apartmentmanagement.entity.Live;
 import com.example.apartmentmanagement.entity.Student;
 import com.example.apartmentmanagement.service.LiveService;
 import com.example.apartmentmanagement.service.StudentService;
 import com.example.apartmentmanagement.utils.ResultVo;
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,23 +53,35 @@ public class StudentController {
 
     @GetMapping("/get")
     public String getStudent(int currentPage, int pageSize, Student student){
-        ResultVo resultVo = new ResultVo<>();
-        PageInfo<Student> student1 = studentService.findStudent(currentPage, pageSize, student);
-
-        if(student1.getSize() != 0){
-            resultVo.setCode(200);
-            resultVo.setMsg("查询成功");
-            List<Student> list = student1.getList();
-            for (Student student2 : list) {
-
+        System.out.println("enter========");
+        ResultVo resultVo = new ResultVo();
+        List<Student> students = studentService.findStudent(student);
+        List<Map<String,Object>> list = new ArrayList<>();
+        PageHelper.startPage(currentPage, pageSize);
+        System.out.println(students);
+        if(students.size()!=0){
+            for (Student student1 : students) {
+                Map<String,Object> mp = new HashMap<>();
+                System.out.println("stuId"+student1.getStuId());
+                String s = liveService.selectDormIdByStuId(student1.getStuId());
+                System.out.println("=========");
+                System.out.println("dormId"+s);
+                mp.put("student",student1);
+                mp.put("dormId",s);
+                list.add(mp);
             }
 
-            resultVo.setData(student1);
+            PageInfo<Map<String,Object>> pageInfo = new PageInfo<>(list);
+            resultVo.setMsg("查询成功");
+            resultVo.setCode(200);
+            resultVo.setData(pageInfo);
         }else {
             resultVo.setCode(500);
-            resultVo.setMsg("没有你想要的查询结果");
-
+            resultVo.setMsg("查询失败");
         }
+
+
+
         return gson.toJson(resultVo);
     }
     @PostMapping("/add")
@@ -90,17 +104,17 @@ public class StudentController {
     public String deleteStudent(@RequestBody String[] stuId){
         int isDelete = 0;
         for (String s : stuId) {
-            isDelete = studentService.deleteStudent(s);
+            isDelete += studentService.deleteStudent(s);
         }
 
         ResultVo resultVo = new ResultVo<>();
 
-        if(isDelete != 0){
+        if(isDelete == stuId.length){
             resultVo.setCode(200);
             resultVo.setMsg("删除成功");
         }else {
             resultVo.setCode(500);
-            resultVo.setMsg("删除失败");
+            resultVo.setMsg("未能全部删除");
         }
         return gson.toJson(resultVo);
     }

@@ -62,40 +62,9 @@ public class LiveService {
     }
 
     public int insertLive(Live live){
-        System.out.println(live);
         int ret = 0;
-        Live live1 = new Live();
-        int canInsert = 0;//0 可以添加 1 不可添加
-        //用户不存在不可以添加
-        Student student = studentMapper.selectById(live.getStuId());
-        if(Objects.isNull(student)){
-            canInsert++;
-        }
-        //选择床位数大于总的床位数也不可以添加
-        int total = dormService.findTotal(live.getDormId());
-        if(live.getBedId()>total){
-            canInsert++;
-        }
-        //床位有人就不可以添加
-        live1.setDormId(live.getDormId());
-        live1.setBedId(live.getBedId());
-        List<Live> lives = liveMapper.selectLive(live1);
-        if(lives.size()>0){ //改床位有人 不可添加
-            System.out.println("enter1");
-            canInsert++;
-        }
-        //用户已经有了也不能添加
-        Live live2 = new Live();
-        live2.setStuId(live.getStuId());
-        List<Live> lives1 = liveMapper.selectLive(live2);
-        if(lives1.size()>0){//用户已经住了宿舍，不能添加
-            System.out.println("enter2");
-            canInsert++;
-        }
-        if(canInsert == 0){
-            ret = liveMapper.insertLive(live);
-            dormService.reduceRemainder(live.getDormId());
-        }
+        ret = liveMapper.insertLive(live);
+        dormService.reduceRemainder(live.getDormId());
         return ret;
     }
 
@@ -119,29 +88,22 @@ public class LiveService {
 
     public int updateLive(Live live){
         int ret = 0;
-        int canUpdate = 0;//0 可以update 1 不可update
-        //用户不存在不可以添加
-        Student student = studentMapper.selectById(live.getStuId());
-        if(Objects.isNull(student)){
-            canUpdate++;
-        }
-        //选择床位数大于总的床位数也不可以添加
-        int total = dormService.findTotal(live.getDormId());
-        if(live.getBedId()>total){
-            canUpdate++;
-        }
-        Live live1 = new Live();
-        //床位有人就不可以添加
-        live1.setDormId(live.getDormId());
-        live1.setBedId(live.getBedId());
-        List<Live> lives = liveMapper.selectLive(live1);
-        if(lives.size()>0){ //改床位有人 不可添加
-            System.out.println("enter1");
-            canUpdate++;
-        }
-        if(canUpdate ==0){
-            ret = liveMapper.updateLive(live);
-        }
+
+        //原来寝室remainder+1
+        String s = liveMapper.selectDormIdByStuId(live.getStuId());
+        dormService.addRemainder(s);
+
+        //后来寝室remainder-1
+        dormService.reduceRemainder(live.getDormId());
+        ret = liveMapper.updateLive(live);
         return ret;
+    }
+
+    public List<Live> selectLive(Live live){
+        return liveMapper.selectLive(live);
+    }
+
+    public String selectDormIdByStuId(String stuId){
+        return liveMapper.selectDormIdByStuId(stuId);
     }
 }

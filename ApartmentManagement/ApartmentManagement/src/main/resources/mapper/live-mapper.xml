@@ -41,7 +41,13 @@
     </delete>
 
 
-    <update id="updateLive" parameterType="int">
+    <update id="updateLive" parameterType="Live">
         update live set dorm_id = ${dormId}, bed_id = ${bedId} where stu_id = #{stuId}
     </update>
+
+    <select id="selectDormIdByStuId" parameterType="String" resultType="String">
+        select dorm_id
+        from live
+        where stu_id = #{stuId}
+    </select>
 </mapper>

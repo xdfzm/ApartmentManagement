@@ -8,6 +8,8 @@ import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/price")
 public class PriceController {
@@ -18,11 +20,9 @@ public class PriceController {
     private PriceService priceService;
 //查找水电标准
     @GetMapping("/get")
-    public String getPrice(int currentPage, int pageSize){
+    public String getPrice(){
         ResultVo resultVo = new ResultVo<>();
-        System.out.println(currentPage);
-        System.out.println(pageSize);
-        PageInfo<Price> price1 = priceService.findPrice(currentPage, pageSize);
+        List<Price> price1 = priceService.findPrice();
 
         if(price1 != null){
             resultVo.setCode(200);
@@ -30,7 +30,7 @@ public class PriceController {
             resultVo.setData(price1);
         }else {
             resultVo.setCode(500);
-            resultVo.setMsg("没有你想要的查询值");
+            resultVo.setMsg("查询失败");
         }
         return gson.toJson(resultVo);
 

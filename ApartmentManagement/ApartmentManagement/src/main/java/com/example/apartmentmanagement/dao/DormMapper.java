@@ -23,12 +23,11 @@ public interface DormMapper {
 
     int findLive(String dormId);
 
-    int findRemainder(String dormId);
-
-    int findTotal(String dormId);
-
     int addRemainder(String dormId);
 
     int reduceRemainder(String dormId);
+
+    int findTotal(String dormId);
+
 }
 

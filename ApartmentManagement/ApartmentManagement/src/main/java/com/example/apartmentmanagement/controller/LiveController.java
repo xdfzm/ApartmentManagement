@@ -2,15 +2,17 @@ package com.example.apartmentmanagement.controller;
 
 import com.example.apartmentmanagement.entity.Live;
 import com.example.apartmentmanagement.entity.Student;
+import com.example.apartmentmanagement.service.DormService;
 import com.example.apartmentmanagement.service.LiveService;
+import com.example.apartmentmanagement.service.StudentService;
 import com.example.apartmentmanagement.utils.ResultVo;
-import com.github.wnameless.json.flattener.JsonFlattener;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/live")
@@ -21,6 +23,12 @@ public class LiveController {
 
     @Autowired
     private Gson gson = new Gson();
+
+    @Autowired
+    private DormService dormService;
+
+    @Autowired
+    private StudentService studentService;
 
 //    @GetMapping("/get")
 //    public String getStudentBedIdByDorm(String dormId){
@@ -62,6 +70,47 @@ public class LiveController {
     @PostMapping("/add")
     public String addLive(@RequestBody Live live){
         ResultVo resultVo = new ResultVo<>();
+        int canAdd = 0;// 0可以添加 1不可以添加
+        //判断有无该用户
+        Student student = studentService.findStudentById(live.getStuId());
+        if(Objects.isNull(student)){
+            canAdd++;
+            resultVo.setCode(500);
+            resultVo.setMsg("该学生不存在");
+            return gson.toJson(resultVo);
+        }
+        //选择床位数大于总的床位数也不可以添加
+        int total = dormService.findTotal(live.getDormId());
+        if(live.getBedId()>total || live.getBedId()<=0){
+            canAdd++;
+            resultVo.setCode(500);
+            resultVo.setMsg("该宿舍没有该床号");
+            return gson.toJson(resultVo);
+        }
+        //判断用户是否已住宿
+        //用户已经有了也不能添加
+        Live liveStudent = new Live();
+        liveStudent.setStuId(live.getStuId());
+        List<Live> livesStudent = liveService.selectLive(liveStudent);
+        if(livesStudent.size()>0){//用户已经住了宿舍，不能添加
+            canAdd++;
+            resultVo.setCode(500);
+            resultVo.setMsg("该学生已入住");
+            return gson.toJson(resultVo);
+        }
+        //判断改床位是否有人
+        //床位有人就不可以添加
+        Live liveDormAndBed = new Live();
+        liveDormAndBed.setDormId(live.getDormId());
+        liveDormAndBed.setBedId(live.getBedId());
+        List<Live> livesDormAndBed = liveService.selectLive(liveDormAndBed);
+        if(livesDormAndBed.size()>0){ //改床位有人 不可添加
+            canAdd++;
+            resultVo.setCode(500);
+            resultVo.setMsg("该床位有人");
+            return gson.toJson(resultVo);
+        }
+
         int isInsert = liveService.insertLive(live);
 
         if(isInsert != 0){
@@ -81,12 +130,12 @@ public class LiveController {
 
         ResultVo resultVo = new ResultVo<>();
 
-        if(isDelete >= stuId.length){
+        if(isDelete == stuId.length){
             resultVo.setCode(200);
             resultVo.setMsg("删除成功");
         }else {
             resultVo.setCode(500);
-            resultVo.setMsg("删除失败");
+            resultVo.setMsg("未能全部删除");
         }
         return gson.toJson(resultVo);
     }
@@ -94,8 +143,36 @@ public class LiveController {
     @PostMapping("/update")
     public String updateStudent(@RequestBody Live live){
         ResultVo resultVo = new ResultVo<>();
-        int isUpdate = liveService.updateLive(live);
+        int canUpdate = 0;//0 可以update 1 不可update
+        //用户不存在不可以修改
+        Student student = studentService.findStudentById(live.getStuId());
+        if(Objects.isNull(student)){
+            canUpdate++;
+            resultVo.setCode(500);
+            resultVo.setMsg("没有该学生");
+            return gson.toJson(resultVo);
+        }
+        //选择床位数大于总的床位数也不可以修改
+        int total = dormService.findTotal(live.getDormId());
+        if(live.getBedId()>total || live.getBedId()<=0){
+            canUpdate++;
+            resultVo.setCode(500);
+            resultVo.setMsg("没有该床位");
+            return gson.toJson(resultVo);
+        }
+        //床位有人
+        Live liveDormAndBed = new Live();
+        liveDormAndBed.setDormId(live.getDormId());
+        liveDormAndBed.setBedId(live.getBedId());
+        List<Live> livesDormAndBed = liveService.selectLive(liveDormAndBed);
+        if(livesDormAndBed.size()>0){ //改床位有人 不可添加
+            canUpdate++;
+            resultVo.setCode(500);
+            resultVo.setMsg("该床位有人");
+            return gson.toJson(resultVo);
+        }
 
+        int isUpdate = liveService.updateLive(live);
         if(isUpdate != 0){
             resultVo.setCode(200);
             resultVo.setMsg("修改成功");

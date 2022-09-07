@@ -14,21 +14,18 @@ public class PriceService {
     @Autowired
     private PriceMapper priceMapper;
 
-    public PageInfo<Price> findPrice(int currentPage, int pageSize){
-        PageHelper.startPage(currentPage, pageSize);
+    public List<Price> findPrice(){
 
         List<Price> price = priceMapper.selectPrice();
 
-        PageInfo<Price> pageInfo = new PageInfo<>(price);
-
-        return pageInfo;
+        return price;
     }
 
 
     public int updatePrice(Price price) {
         Price price1 = priceMapper.findPrice();
         int result = 0;
-        result = priceMapper.updatePrice(price1);
+        result = priceMapper.updatePrice(price);
         return result;
     }
 }
