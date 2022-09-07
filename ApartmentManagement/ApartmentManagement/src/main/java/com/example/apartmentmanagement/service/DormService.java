@@ -100,4 +100,8 @@ public class DormService {
     public int findTotal(String dormId){
         return dormMapper.findTotal(dormId);
     }
+
+    public String findDormType(String dormId){
+        return dormMapper.getDormType(dormId);
+    }
 }

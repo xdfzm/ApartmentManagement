@@ -29,5 +29,7 @@ public interface DormMapper {
 
     int findTotal(String dormId);
 
+    String getDormType(String dormId);
+
 }
 

@@ -51,9 +51,9 @@
         <if test="stuId != null and stuId !=''">
             and stu_id=#{stuId}
         </if>
-<!--        <if test="dormId !=null and dormId !=''">-->
-<!--            and dorm_id=#{dormId}-->
-<!--        </if>-->
+        <if test="dormId !=null and dormId !=''">
+            and dorm_id=#{dormId}
+        </if>
         <if test="stuName !=null and stuName !=''">
             and stu_name like "%"#{stuName}"%"
         </if>
@@ -125,6 +125,10 @@
         where stu_id = #{stuId}
     </update>
 
-
+    <select id="getStudentSex" resultType="String">
+        SELECT stu_sex
+        FROM student
+        WHERE stu_id = #{stuId}
+    </select>
 
 </mapper>

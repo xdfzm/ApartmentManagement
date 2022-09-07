@@ -159,7 +159,7 @@ class ApartmentManagementApplicationTests {
 
     @Test
     public void testInsert(){
-        String s = liveService.selectDormIdByStuId("109");
-        System.out.println(s);
+        String sex = studentMapper.getStudentSex("109");
+        System.out.println(sex);
     }
 }

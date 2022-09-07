@@ -18,4 +18,6 @@ public interface StudentMapper {
     int updateStudent(Student student);
 
     int deleteStudent(String stuId);
+
+    String getStudentSex(String stuId);
 }

@@ -71,4 +71,7 @@ public List<Student> findStudent(Student student){
         return result;
     }
 
+    public String getStudentSex(String stuId){
+        return studentMapper.getStudentSex(stuId);
+    }
 }

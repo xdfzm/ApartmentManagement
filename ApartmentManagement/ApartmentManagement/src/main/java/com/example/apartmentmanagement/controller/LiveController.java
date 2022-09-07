@@ -71,6 +71,19 @@ public class LiveController {
     public String addLive(@RequestBody Live live){
         ResultVo resultVo = new ResultVo<>();
         int canAdd = 0;// 0可以添加 1不可以添加
+        //不可以加入异性宿舍
+        String dormType = dormService.findDormType(live.getDormId());
+        System.out.println("dormType"+dormType);
+        String studentSex = studentService.getStudentSex(live.getStuId());
+        System.out.println("studentSex"+studentSex);
+        System.out.println("="+dormType==studentSex);
+        System.out.println("equals"+dormType.equals(studentSex));
+        if(!dormType.equals(studentSex)){
+            canAdd++;
+            resultVo.setCode(500);
+            resultVo.setMsg("无法选择异性宿舍");
+            return gson.toJson(resultVo);
+        }
         //判断有无该用户
         Student student = studentService.findStudentById(live.getStuId());
         if(Objects.isNull(student)){
@@ -144,6 +157,15 @@ public class LiveController {
     public String updateStudent(@RequestBody Live live){
         ResultVo resultVo = new ResultVo<>();
         int canUpdate = 0;//0 可以update 1 不可update
+        //不可以加入异性宿舍
+        String dormType = dormService.findDormType(live.getDormId());
+        String studentSex = studentService.getStudentSex(live.getStuId());
+        if(!dormType.equals(studentSex)){
+            canUpdate++;
+            resultVo.setCode(500);
+            resultVo.setMsg("无法选择异性宿舍");
+            return gson.toJson(resultVo);
+        }
         //用户不存在不可以修改
         Student student = studentService.findStudentById(live.getStuId());
         if(Objects.isNull(student)){

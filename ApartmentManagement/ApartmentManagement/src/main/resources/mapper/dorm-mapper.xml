@@ -94,4 +94,9 @@
         WHERE dorm_id = #{dormId}
     </select>
 
+    <select id="getDormType" resultType="String">
+        SELECT dorm_type
+        FROM dorm
+        WHERE dorm_id = #{dormId}
+    </select>
 </mapper>
