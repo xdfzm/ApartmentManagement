@@ -57,9 +57,11 @@ public class DormService {
         return pageInfo;
     }
 
-    public Dorm findDormById(String dormId){
-        Dorm dorm = dormMapper.selectById(dormId);
-        return dorm;
+    public int findDormById(String dormId){
+        int num=0;
+        Dorm dorm1 = dormMapper.selectById(dormId);
+        if(dorm1 != null) num=1;
+        return num;
     }
 
     public int updateDorm(Dorm dorm){
@@ -71,12 +73,12 @@ public class DormService {
         return result;
     }
 
-    public int deleteDorm(Dorm dorm){
-        Dorm dorm1 = dormMapper.selectById(dorm.getDormId());
+    public int deleteDorm(String dormId){
+        Dorm dorm1 = dormMapper.selectById(dormId);
         int result = 0;
         if(dorm1 != null){
             result = 1;
-            dormMapper.deleteDorm(dorm.getDormId());
+            dormMapper.deleteDorm(dormId);
         }
         return result;
     }
@@ -87,25 +89,15 @@ public class DormService {
         return LiveNumber;
     }
 
-
-    /**
-     * 查询某个宿舍剩余床数
-     * @param dormId
-     * @return
-     */
-    public int findRemainder(String dormId){
-        return dormMapper.findRemainder(dormId);
-    }
-
-    public int findTotal(String dormId){
-        return dormMapper.findTotal(dormId);
-    }
-
     public int addRemainder(String dormId){
         return dormMapper.addRemainder(dormId);
     }
 
     public int reduceRemainder(String dormId){
         return dormMapper.reduceRemainder(dormId);
+    }
+
+    public int findTotal(String dormId){
+        return dormMapper.findTotal(dormId);
     }
 }

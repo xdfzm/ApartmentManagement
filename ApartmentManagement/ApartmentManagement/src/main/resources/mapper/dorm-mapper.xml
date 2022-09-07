@@ -13,24 +13,12 @@
         WHERE dorm_id = #{dormId}
     </select>
 
-    <select id="findRemainder" resultType="int">
-        SELECT dorm_remainder
-        FROM dorm
-        WHERE dorm_id = #{dormId}
-    </select>
-
-    <select id="findTotal" resultType="int">
-        SELECT dorm_total
-        FROM dorm
-        WHERE dorm_id = #{dormId}
-    </select>
-
     <select id="selectDorm" resultType="Dorm">
         SELECT <include refid="selectFields"></include>
         FROM dorm
         WHERE 1 = 1
         <if test="dormId != null and dormId != ''">
-            and dorm_id=#{dormId}
+            and dorm_id = #{dormId}
         </if>
         <if test="dormTotal !=null and dormId != ''">
             and dorm_total=#{dormTotal}
@@ -55,9 +43,10 @@
         WHERE dorm_id = #{dormId}
     </select>
 
-    <select id="selectAllDorms" resultType="Dorm">
+    <select id="selectDorms" resultType="Dorm">
         SELECT <include refid="selectFields"></include>
         FROM dorm
+        where dorm_total = #{dormTotal}
     </select>
 
     <select id="selectAccessDorms" resultType="Dorm">
@@ -89,13 +78,20 @@
         where dorm_id = #{dormId}
     </update>
 
-    <update id="addRemainder" parameterType="Dorm">
+    <update id="addRemainder" parameterType="String">
         update dorm set dorm_remainder = dorm_remainder + 1
         where dorm_id = #{dormId}
     </update>
 
-    <update id="reduceRemainder" parameterType="Dorm">
+    <update id="reduceRemainder" parameterType="String">
         update dorm set dorm_remainder = dorm_remainder - 1
         where dorm_id = #{dormId}
     </update>
+
+    <select id="findTotal" resultType="int">
+        SELECT dorm_total
+        FROM dorm
+        WHERE dorm_id = #{dormId}
+    </select>
+
 </mapper>
